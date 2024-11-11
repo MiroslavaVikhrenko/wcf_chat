@@ -36,12 +36,14 @@ namespace wcf_chat
         [OperationContract]      
         void Disconnect(int id);
 
-        //Method to send message - it takes string parameter (message)
+        //Method to send message - it takes string parameter (message) and int parameter (id of the user who sends a message)
+        //we need id parameter so that when the message is sent to other users we could specify FROM whom this message arrived
+
         //if we do not need to wait for server reply, then we need to add a parameter 'IsOneWAy' to attribuite [OperationContract]
         //this parameter should take 'true' value 
         //by default all these attributes have this parameter but it's value is false 
         [OperationContract(IsOneWay = true)]
-        void SendMsg(string msg);
+        void SendMsg(string msg, int id);
 
         //Method SendMsg() receives a message and server needs somehow send out the message to all clients 
         //In order to envoke any action on the client's side from our server's end, we need a callback 
@@ -54,7 +56,10 @@ namespace wcf_chat
     public interface IServerChatCallBack
     {
         //Callback method to send out messages 
-        [OperationContract]
+        //need to add 'IsOneWay = true' to [OperationContract] attribute =>
+        //otherwise server would expect reply from the client if they received this callback and we do not need that
+        //server just need to send out messages
+        [OperationContract(IsOneWay = true)]
         void MsgCallback(string msg);
 
     }

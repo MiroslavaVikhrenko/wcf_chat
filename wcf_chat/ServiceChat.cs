@@ -59,7 +59,8 @@ namespace wcf_chat
             nextId++; //this ensures each user will have a different id
 
             //we need to add a message to all our users that a new user connected to the chat
-            SendMsg(user.Name+" connected to the chat.");
+            //0 => so that we won't send this message to the conneting user themselves
+            SendMsg(user.Name+" connected to the chat.", 0);
 
             //after a user has been created we need to add them to the users list so that our service knows what users we have
             users.Add(user);
@@ -80,13 +81,46 @@ namespace wcf_chat
             {
                 users.Remove(user);
                 //after we found and deleted this user, we need to send out a message to all the rest users that this user left the chat
-                SendMsg(user.Name + " left the chat.");
+                SendMsg(user.Name + " left the chat.", 0);
             }
         }
 
-        public void SendMsg(string msg)
+        public void SendMsg(string msg, int id)
         {
-            throw new NotImplementedException();
+            //here we need to go through all users 
+            foreach (var item in users)
+            {
+                //create a message which will be a reply from server to all users
+                //in message we need a date when the message was sent by server
+                //DateTime class has property Now - we will use that
+                //we do not need all the details so we call method ToShortTimeString()
+                string answer = DateTime.Now.ToShortTimeString();
+
+                //then we need to add the name of the user who sent this message
+                //to find the name of this user we use an id from entry parameter
+                var user = users.FirstOrDefault(i => i.Id == id);
+                if (user != null)
+                {
+                    //if we found such a user, then to variable answer we need to add the name of this user
+                    answer += ": " + user.Name + " ";
+                }
+
+                //then we need to add a text message itself which we received as an entry parameter in the method
+                answer += msg;
+
+                //if we did not find a user in our users list, it means that it was either connect or disconnect
+                //becuase if these methods as an entry id parameter we sent 0, and we cannot have users with 0 id (generation of id starts from 1)
+                //in this case name field will be sent in advance with the messages and we won't need to add it here
+
+                //after a message content was formed, we need to send out this message to the user with which we work in foreach loop
+                //to send this message we have a callback method
+                //we need to address to operation context field of our user that we are currently going through
+                //and call the method GetCallBackChannel() and pass the callback interface in <> and
+                //call the method from this interface which will be implemented on the client's side and
+                //the client will receive this message that we formed
+
+                item.operationContext.GetCallbackChannel<IServerChatCallBack>().MsgCallback(answer);
+            }
         }
     }
 }
