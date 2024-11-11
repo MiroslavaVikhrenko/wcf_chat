@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -39,10 +40,31 @@ namespace wcf_chat
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class ServiceChat : IServiceChat
     {
+        //Create a list of ServerUser objects 
+        List<ServerUser> users = new List<ServerUser>();
+        //Add a variable for ID generation, assign by defaul value '1'
+        int nextId = 1;
 
-        public int Connect()
+        //Method to create a new user
+        public int Connect(string name)
         {
-            throw new NotImplementedException();
+            ServerUser user = new ServerUser()
+            {
+                Id = nextId,
+                Name = name,
+                //for operationContext we take the data coming with connection of the user from class OperationContext from Current property
+                operationContext = OperationContext.Current
+            };
+            //after we assigned the ID we need to increment nextId value by 1 because for the next user id should have a different value
+            nextId++; //this ensures each user will have a different id
+
+            //we need to add a message to all our users that a new user connected to the chat
+            SendMsg(user.Name+" connected to the chat.");
+
+            //after a user has been created we need to add them to the users list so that our service knows what users we have
+            users.Add(user);
+            //the method returns a generated ID for the user
+            return user.Id;
         }
 
         public void Disconnect(int id)

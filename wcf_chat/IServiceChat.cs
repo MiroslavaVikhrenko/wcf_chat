@@ -25,10 +25,10 @@ namespace wcf_chat
         //However, in some cases we do not need to wait for such reply - we just need to send a message to server and that's it
         //and server needs to send out this message to the rest of the clients
 
-        //Method to connect to our service
+        //Method to connect to our service - takes a connecting user name as parameter
         //Here we need to wait for server's reply becaue result of this method will be receiving the id assigned to our user by our server
         [OperationContract] //methods with this attribute will be 'visible' from the client's side     
-        int Connect();
+        int Connect(string name);
 
         //Method to disconnect from our service => will be called when the client leaves the chat OR press the button to disconnect from the chat
         //needed to inform the service that this client no longer exists - no need to send messages to this client
