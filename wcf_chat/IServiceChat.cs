@@ -7,6 +7,8 @@ using System.Text;
 
 namespace wcf_chat
 {
+    //server part logic is here
+
     //description of what our service can do
     //here there will be finctions which a client can use while working with our server
     //so here we describe core functionalities for our service
