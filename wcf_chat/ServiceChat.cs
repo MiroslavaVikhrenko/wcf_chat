@@ -67,9 +67,21 @@ namespace wcf_chat
             return user.Id;
         }
 
+        //Method to disconnect a user, takes a user ID as entry parameter
+        //after connecting the user will know their id - the id is returned by Connect() method
+        //so when they disconnect they send their id to our service saying that I am leaving the chat, take me off the list, don't send me new messages
         public void Disconnect(int id)
         {
-            throw new NotImplementedException();
+            //In order to remove the user from the list, we first need to find them
+            //we could use loops with search and checks however C# offers LINQ functionality, it's more convenient way 
+            var user = users.FirstOrDefault(i => i.Id == id);
+            //if there is no such user => the user will be null => so we need to check this variable for null
+            if (user != null)
+            {
+                users.Remove(user);
+                //after we found and deleted this user, we need to send out a message to all the rest users that this user left the chat
+                SendMsg(user.Name + " left the chat.");
+            }
         }
 
         public void SendMsg(string msg)
