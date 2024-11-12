@@ -24,5 +24,10 @@ namespace ChatClient
         {
             InitializeComponent();
         }
+
+        private void tbMessage_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
     }
 }
