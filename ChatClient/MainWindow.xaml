@@ -8,7 +8,7 @@
         Title="MainWindow" Height="350" Width="525">
     <Grid>
         <TextBox x:Name="tbUserName" HorizontalAlignment="Left" Height="29" Margin="172,10,0,0" TextWrapping="Wrap" Text="User Name" VerticalAlignment="Top" Width="335"/>
-        <Button Content="Connect" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="147" Height="29"/>
+        <Button x:Name="bConnDicon" Click="Button_Click" Content="Connect" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="147" Height="29"/>
         <ListBox x:Name="lbChat" HorizontalAlignment="Left" Height="181" Margin="10,44,0,0" VerticalAlignment="Top" Width="497"/>
         <TextBox x:Name="tbMessage" HorizontalAlignment="Left" Height="79" Margin="10,230,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="497" KeyDown="tbMessage_KeyDown"/>
 
