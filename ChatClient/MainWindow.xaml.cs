@@ -110,6 +110,8 @@ namespace ChatClient
             //add new item (=message) to the listbox where we store messages
             //each time server will send us a message => this message will appear in the list box
             lbChat.Items.Add(msg);
+            //fix scrolling so that our chat would always scrolls down - we pass the last element 
+            lbChat.ScrollIntoView(lbChat.Items[lbChat.Items.Count - 1]);
         }
 
         //Event for closing window (press x)
