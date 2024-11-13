@@ -7,16 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525" Loaded="Window_Loaded" Closing="Window_Closing">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="31*"/>
-            <ColumnDefinition Width="16*"/>
-            <ColumnDefinition Width="45*"/>
-            <ColumnDefinition Width="31*"/>
-            <ColumnDefinition Width="172*"/>
-            <ColumnDefinition Width="52*"/>
-            <ColumnDefinition Width="178*"/>
-        </Grid.ColumnDefinitions>
-        <TextBox x:Name="tbUserName" HorizontalAlignment="Left" Height="29" Margin="49,10,0,0" TextWrapping="Wrap" Text="User Name" VerticalAlignment="Top" Width="335"/>
+        <TextBox x:Name="tbUserName" HorizontalAlignment="Left" Height="29" Margin="172,10,0,0" TextWrapping="Wrap" Text="User Name" VerticalAlignment="Top" Width="335"/>
         <Button x:Name="bConnDicon" Click="Button_Click" Content="Connect" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="147" Height="29"/>
         <ListBox x:Name="lbChat" HorizontalAlignment="Left" Height="181" Margin="10,44,0,0" VerticalAlignment="Top" Width="497"/>
         <TextBox x:Name="tbMessage" HorizontalAlignment="Left" Height="79" Margin="10,230,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="497" KeyDown="tbMessage_KeyDown"/>
