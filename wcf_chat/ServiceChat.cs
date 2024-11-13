@@ -60,7 +60,7 @@ namespace wcf_chat
 
             //we need to add a message to all our users that a new user connected to the chat
             //0 => so that we won't send this message to the conneting user themselves
-            SendMsg(user.Name+" connected to the chat.", 0);
+            SendMsg(": " + user.Name+" connected to the chat.", 0);
 
             //after a user has been created we need to add them to the users list so that our service knows what users we have
             users.Add(user);
@@ -81,7 +81,7 @@ namespace wcf_chat
             {
                 users.Remove(user);
                 //after we found and deleted this user, we need to send out a message to all the rest users that this user left the chat
-                SendMsg(user.Name + " left the chat.", 0);
+                SendMsg(": " + user.Name + " left the chat.", 0);
             }
         }
 
