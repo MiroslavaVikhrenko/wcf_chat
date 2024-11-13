@@ -32,8 +32,8 @@ namespace ChatClient
         //When main window is loaded = when the client is loaded => we will create and provide memory for service chat client object
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //when window is being created, a service chat client object is created and we will be able to interact with this object
-            client = new ServiceChatClient(new System.ServiceModel.InstanceContext(this));
+            ////when window is being created, a service chat client object is created and we will be able to interact with this object
+            //client = new ServiceChatClient(new System.ServiceModel.InstanceContext(this)); //removed from here and moved to ConnectUser() method
         }
         public MainWindow()
         {
@@ -46,6 +46,7 @@ namespace ChatClient
             //check variable IsConnected - if the user is not yet connected - then change value for this variable to true
             if (!IsConnected)
             {
+                client = new ServiceChatClient(new System.ServiceModel.InstanceContext(this));
                 //pass name of the user from text box UserName - Text property
                 //this method returns ID
                 ID = client.Connect(tbUserName.Text);
@@ -64,14 +65,29 @@ namespace ChatClient
             if (IsConnected)
             {
                 client.Disconnect(ID);
+                //assign client to null after disconnecting
+                client = null;
                 tbUserName.IsEnabled = true; //when the user is disconnected, we can change user name
                 bConnDicon.Content = "Connect";
                 IsConnected = false;
             }
         }
-
+        //Event for tbMessage text box
         private void tbMessage_KeyDown(object sender, KeyEventArgs e)
         {
+            //check what key is pressed
+            if (e.Key == Key.Enter)
+            {
+                //check for null => if client is not null it means that we already connected 
+                if (client != null)
+                {
+                    //if 'enter' key was pressed => it means that user typed their message and we need to send it
+                    //call SendMsg() method and passing 2 arguments: text from text box message and the id
+                    client.SendMsg(tbMessage.Text, ID);
+                    //clear tbMessage after message is sent to server
+                    tbMessage.Text = string.Empty;
+                }
+            }
 
         }
 
@@ -96,5 +112,10 @@ namespace ChatClient
             lbChat.Items.Add(msg);
         }
 
+        //Event for closing window (press x)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            DisconnectUser();
+        }
     }
 }
